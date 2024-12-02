@@ -26,7 +26,7 @@ const NoteCard = ({ title, description, category, locked }) => {
 const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#000",
     borderRadius: 10,
     padding: 16,
     marginBottom: 10,
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#C8A1E0",
     opacity: 0.9,
+    borderColor: "#000",
   },
   title: {
     fontSize: 16,
@@ -45,14 +46,15 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    color: "#666",
+    color: "#000",
     marginVertical: 8,
   },
   tag: {
     position: "absolute",
     bottom: 8,
     right: 8,
-    backgroundColor: "#8A2BE2",
+    backgroundColor: "#C8A1E0",
+    borderColor: "#000",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,

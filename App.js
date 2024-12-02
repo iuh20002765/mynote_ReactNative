@@ -1,11 +1,26 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "./screens/Home";
-import Diary from "./screens/Diary";
+import DiaryDate from "./screens/DiaryDate";
+import DiaryWeek from "./screens/DiaryWeek";
+import DiaryMonth from "./screens/DiaryMonth";
 import Profile from "./screens/Profile";
+
+// Tạo Stack Navigator cho Diary
+const DiaryStack = createStackNavigator();
+
+function DiaryStackNavigator() {
+  return (
+    <DiaryStack.Navigator screenOptions={{ headerShown: false }}>
+      <DiaryStack.Screen name="DiaryDate" component={DiaryDate} />
+      <DiaryStack.Screen name="DiaryWeek" component={DiaryWeek} />
+      <DiaryStack.Screen name="DiaryMonth" component={DiaryMonth} />
+    </DiaryStack.Navigator>
+  );
+}
 
 // Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -17,7 +32,6 @@ export default function App() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-
             if (route.name === "Home") {
               iconName = focused ? "home" : "home-outline";
             } else if (route.name === "Diary") {
@@ -25,10 +39,9 @@ export default function App() {
             } else if (route.name === "Profile") {
               iconName = focused ? "person" : "person-outline";
             }
-
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: "tomato",
+          tabBarActiveTintColor: "#C8A1E0",
           tabBarInactiveTintColor: "gray",
         })}
       >
@@ -39,7 +52,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Diary"
-          component={Diary}
+          component={DiaryStackNavigator}
           options={{ headerShown: false }}
         />
         <Tab.Screen
@@ -51,11 +64,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

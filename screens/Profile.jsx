@@ -1,16 +1,26 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
+const userData = {
+  name: "Kein",
+  avatar: require("../assets/Kein.jpg"), // Đường dẫn đến hình ảnh avatar
+  email: "vukein3110@gmail.com",
+};
 
 export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
         <View style={styles.profilePicture}>
-          <Ionicons name="person-circle-outline" size={64} color="#000" />
+          {userData.avatar ? (
+            <Image source={userData.avatar} style={styles.profilePicture} />
+          ) : (
+            <Ionicons name="person-circle-outline" size={64} color="#000" />
+          )}
         </View>
-        <Text style={styles.username}>Kein</Text>
-        <Text style={styles.email}>vukein3110@gmail.com</Text>
+        <Text style={styles.username}>{userData.name}</Text>
+        <Text style={styles.email}>{userData.email}</Text>
       </View>
 
       <View style={styles.settingsContainer}>
@@ -57,9 +67,9 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#f0f0f0",
-    justifyContent: "center",
-    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#000",
+    overflow: "hidden",
   },
   username: {
     fontSize: 18,
