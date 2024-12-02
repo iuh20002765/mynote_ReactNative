@@ -17,7 +17,7 @@ export default function DiaryWeek() {
   const handleTabPress = (tab) => {
     setSelectedTab(tab);
     if (tab === "Ngày") {
-      navigation.navigate("DiaryDate");
+      navigation.navigate("DiaryWeek");
     } else if (tab === "Tháng") {
       navigation.navigate("DiaryMonth");
     }
@@ -26,16 +26,16 @@ export default function DiaryWeek() {
   const notes = [
     {
       id: "1",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "image",
       time: "13:42 PM",
       tag: "Life Style",
-      image: "https://via.placeholder.com/300x150", // Đường dẫn ảnh
+      image: require("../assets/anh1.jpg"), // Đường dẫn ảnh
     },
     {
       id: "2",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "audio",
       time: "14:00 PM",
@@ -43,7 +43,7 @@ export default function DiaryWeek() {
     },
     {
       id: "3",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "image",
       time: "13:42 PM",
@@ -52,7 +52,7 @@ export default function DiaryWeek() {
     },
     {
       id: "4",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "audio",
       time: "14:00 PM",

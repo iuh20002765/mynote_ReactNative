@@ -1,22 +1,48 @@
-import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Modal,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "./AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const userData = {
   name: "Kein",
-  avatar: require("../assets/Kein.jpg"), // Đường dẫn đến hình ảnh avatar
+  avatar: require("../assets/Kein.jpg"),
   email: "vukein3110@gmail.com",
+  joinDate: new Date("2024-09-18"),
 };
 
-export default function SettingsScreen() {
+export default function Profile() {
+  const { logOut } = useAuth();
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false); // state cho modal
+
+  // Hàm xử lý đăng xuất
+  const handleLogOut = () => {
+    logOut();
+    navigation.navigate("Login");
+  };
+
+  const joinDateString = userData.joinDate.toLocaleDateString("vi-VN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-        <View style={styles.profilePicture}>
+        <View style={styles.profilePictureContainer}>
           {userData.avatar ? (
             <Image source={userData.avatar} style={styles.profilePicture} />
           ) : (
-            <Ionicons name="person-circle-outline" size={64} color="#000" />
+            <Ionicons name="person-circle-outline" size={80} color="#000" />
           )}
         </View>
         <Text style={styles.username}>{userData.name}</Text>
@@ -42,12 +68,49 @@ export default function SettingsScreen() {
       </View>
 
       <Text style={styles.joinDate}>
-        Đã tham gia mynote vào ngày 18 tháng 9, 2024
+        Đã tham gia mynote vào ngày {joinDateString}
       </Text>
 
-      <TouchableOpacity style={styles.logoutButton}>
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={() => setModalVisible(true)}
+      >
         <Text style={styles.logoutText}>Đăng xuất</Text>
       </TouchableOpacity>
+
+      {/* Modal xác nhận đăng xuất */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Xác nhận đăng xuất</Text>
+            <Text style={styles.modalMessage}>
+              Bạn có chắc chắn muốn đăng xuất không?
+            </Text>
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => {
+                  handleLogOut(); // Gọi hàm đăng xuất
+                  setModalVisible(false); // Đóng modal
+                }}
+              >
+                <Text style={styles.modalButtonText}>Đồng ý</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText}>Huỷ</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -63,13 +126,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 32,
   },
-  profilePicture: {
+  profilePictureContainer: {
     width: 80,
     height: 80,
     borderRadius: 40,
     borderWidth: 2,
     borderColor: "#000",
     overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  profilePicture: {
+    width: "100%",
+    height: "100%",
   },
   username: {
     fontSize: 18,
@@ -110,19 +179,67 @@ const styles = StyleSheet.create({
   joinDate: {
     marginVertical: 16,
     fontSize: 14,
-    color: "#888", // Màu sắc nhẹ nhàng hơn
-    textAlign: "center", // Căn giữa
-    paddingHorizontal: 16, // Thêm padding ngang
+    color: "#888",
+    textAlign: "center",
+    paddingHorizontal: 16,
   },
   logoutButton: {
     backgroundColor: "#000",
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
+    marginTop: 20,
   },
   logoutText: {
     color: "#fff",
     fontSize: 16,
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Màu nền mờ
+  },
+  modalContent: {
+    width: "80%",
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  modalMessage: {
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 20,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    backgroundColor: "#C8A1E0", // Màu nền cho nút
+  },
+  modalButtonText: {
+    color: "#fff",
     fontWeight: "bold",
   },
 });

@@ -26,7 +26,7 @@ function DiaryDate() {
   const notes = [
     {
       id: "1",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "image",
       time: "13:42 PM",
@@ -35,7 +35,7 @@ function DiaryDate() {
     },
     {
       id: "2",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "audio",
       time: "14:00 PM",
@@ -43,7 +43,7 @@ function DiaryDate() {
     },
     {
       id: "3",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "image",
       time: "13:42 PM",
@@ -52,14 +52,13 @@ function DiaryDate() {
     },
     {
       id: "4",
-      date: "Hôm nay, 18 tháng 9, 2024", // Ngày
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
       title: "Một ngày xinh đẹp...",
       type: "audio",
       time: "14:00 PM",
       tag: "Life Style",
     },
   ];
-
   const stories = [
     {
       id: "1",
@@ -94,35 +93,37 @@ function DiaryDate() {
     },
   ];
 
-  const renderNote = ({ item }) => (
-    <View>
-      <View style={styles.noteTopBar}>
-        <Text style={styles.noteDate}>{item.date}</Text>
-        <Icon
-          name="more-horiz"
-          size={24}
-          color="#000"
-          style={styles.noteMenuIcon}
-        />
-      </View>
-      <View style={styles.noteCard}>
-        <View style={styles.noteHeaderContainer}>
-          <Text style={styles.noteTitle}>{item.title}</Text>
-          <Text style={styles.noteTime}>{item.time}</Text>
+  const renderNote = ({ item }) => {
+    return (
+      <View>
+        <View style={styles.noteTopBar}>
+          <Text style={styles.noteDate}>Hôm nay, {item.date}</Text>
+          <Icon
+            name="more-horiz"
+            size={24}
+            color="#000"
+            style={styles.noteMenuIcon}
+          />
         </View>
-        {item.type === "image" ? (
-          <Image source={{ uri: item.image }} style={styles.noteImage} />
-        ) : (
-          <View style={styles.audioContainer}>
-            <Text>Audio Player Placeholder</Text>
+        <View style={styles.noteCard}>
+          <View style={styles.noteHeaderContainer}>
+            <Text style={styles.noteTitle}>{item.title}</Text>
+            <Text style={styles.noteTime}>{item.time}</Text>
           </View>
-        )}
-        <View style={styles.noteTagContainer}>
-          <Text style={styles.noteTag}>{item.tag}</Text>
+          {item.type === "image" ? (
+            <Image source={{ uri: item.image }} style={styles.noteImage} />
+          ) : (
+            <View style={styles.audioContainer}>
+              <Text>Audio Player Placeholder</Text>
+            </View>
+          )}
+          <View style={styles.noteTagContainer}>
+            <Text style={styles.noteTag}>{item.tag}</Text>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   const renderStory = ({ item }) => (
     <View style={styles.story}>
