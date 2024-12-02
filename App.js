@@ -12,6 +12,9 @@ import DiaryWeek from "./screens/DiaryWeek";
 import DiaryMonth from "./screens/DiaryMonth";
 import Profile from "./screens/Profile";
 import Login from "./screens/Login"; // Nhập màn hình đăng nhập
+import Register from "./screens/Register"; // Nhập màn hình đăng ký
+import ForgotPassword from "./screens/ForgotPassword"; // Nhập màn hình quên mật khẩu
+import Guest from "./screens/Guest";
 import { AuthProvider } from "./screens/AuthContext"; // Nhập AuthContext
 
 const DiaryStack = createStackNavigator();
@@ -89,6 +92,16 @@ export default function App() {
           <AuthStack.Screen
             name="Login"
             component={Login}
+            options={{ headerShown: false }}
+          />
+          <AuthStack.Screen
+            name="Register"
+            component={Register}
+            options={{ headerShown: false }}
+          />
+          <AuthStack.Screen
+            name="Guest"
+            component={Guest}
             options={{ headerShown: false }}
           />
           <AuthStack.Screen
