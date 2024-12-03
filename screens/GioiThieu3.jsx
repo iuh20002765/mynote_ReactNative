@@ -13,7 +13,7 @@ const GioiThieu3 = ({ navigation }) => {
 
       {/* Hình ảnh */}
       <Image
-        source={require("../assets/gioithieu2.png")} // Đường dẫn tới hình ảnh của bạn
+        source={require("../assets/gioithieu3.png")} // Đường dẫn tới hình ảnh của bạn
         style={styles.image}
       />
 
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     color: "#C8A1E0",
   },
   image: {
-    width: 331, // Kích thước hình ảnh
-    height: 256,
+    width: 300, // Kích thước hình ảnh
+    height: 220,
     marginBottom: 20, // Khoảng cách
   },
   title: {

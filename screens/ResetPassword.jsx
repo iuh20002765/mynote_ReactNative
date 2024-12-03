@@ -9,8 +9,9 @@ import {
   Modal,
 } from "react-native";
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+const ResetPassword = () => {
+  const [newPass, setNewPass] = useState("");
+  const [reNewPass, setReNewPass] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleResetPassword = () => {
@@ -18,28 +19,31 @@ const ForgotPassword = () => {
     setModalVisible(true);
   };
 
-  const handleCheckMail = () => {
+  const handleLogin = () => {
     setModalVisible(false); // Ẩn modal
-    navigation.navigate("ResetPassword"); // Điều hướng đến trang đăng nhập
+    navigation.navigate("Login"); // Điều hướng đến trang đăng nhập
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Nhập email của bạn"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
+        placeholder="Nhập mật khẩu mới"
+        value={newPass}
+        onChangeText={setNewPass}
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Nhập lại mật khẩu mới"
+        value={reNewPass}
+        onChangeText={setReNewPass}
         autoCapitalize="none"
       />
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-        <Text style={styles.buttonText}>Tìm lại mật khẩu</Text>
+        <Text style={styles.buttonText}>Đặt lại mật khẩu</Text>
       </TouchableOpacity>
-      <Text style={styles.infoText}>
-        Khi bạn nhấn nút, mynote sẽ gửi đường dẫn đặt lại mật khẩu đến email của
-        bạn.
-      </Text>
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -49,19 +53,15 @@ const ForgotPassword = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Image
-              source={require("../assets/mail.png")} // Thay đổi với đường dẫn đúng tới hình ảnh
+              source={require("../assets/yay.png")} // Thay đổi với đường dẫn đúng tới hình ảnh
               style={styles.modalImage}
             />
-            <Text style={styles.modalTitle}>Kiểm tra hộp thư của bạn</Text>
+            <Text style={styles.modalTitle}>Đặt lại mật khẩu thành công</Text>
             <Text style={styles.modalText}>
-              mynote vừa gửi một đường dẫn đặt lại mật khẩu đến hộp thư của bạn.
-              Nó sẽ có hiệu lực trong 20 phút.
+              Bây giờ bạn có thể đăng nhập vào mynote với mật khẩu mới rồi.
             </Text>
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={handleCheckMail}
-            >
-              <Text style={styles.loginButtonText}>Kiểm tra hộp thư</Text>
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Đăng nhập</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -150,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPassword;
+export default ResetPassword;

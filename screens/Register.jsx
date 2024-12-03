@@ -6,8 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   CheckBox,
+  Modal,
+  Image,
 } from "react-native";
-import CustomHeader from "../components/CustomHeader";
 import OrSeparator from "../components/OrSeparator";
 import { Ionicons, FontAwesome } from "@expo/vector-icons"; // Import biểu tượng từ thư viện
 
@@ -16,10 +17,20 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agree, setAgree] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const handleRegister = () => {
+    // Logic đăng ký (kiểm tra, tạo tài khoản, v.v.)
+    // Sau khi đăng ký thành công
+    setModalVisible(true); // Hiển thị modal
+  };
+
+  const handleLogin = () => {
+    setModalVisible(false); // Ẩn modal
+    navigation.navigate("Login"); // Điều hướng đến trang đăng nhập
+  };
   return (
     <View style={styles.container}>
-      <CustomHeader navigation={navigation} title="Đăng ký" />
       {/* Các nút đăng ký */}
       <TouchableOpacity
         style={styles.socialButton}
@@ -89,10 +100,7 @@ const Register = ({ navigation }) => {
       </View>
 
       {/* Nút Đăng ký */}
-      <TouchableOpacity
-        style={styles.registerButton}
-        onPress={() => console.log("Đăng ký")}
-      >
+      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.registerButtonText}>Đăng ký</Text>
       </TouchableOpacity>
 
@@ -103,6 +111,29 @@ const Register = ({ navigation }) => {
           <Text style={styles.registerLinkText}>Đăng nhập thôi</Text>
         </TouchableOpacity>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Image
+              source={require("../assets/yay.png")} // Thay đổi với đường dẫn đúng tới hình ảnh
+              style={styles.modalImage}
+            />
+            <Text style={styles.modalTitle}>Đăng ký tài khoản thành công</Text>
+            <Text style={styles.modalText}>
+              Ngày mới tốt lành, Kein! Bây giờ bạn có thể đăng nhập vào mynote
+              với tài khoản của bạn rồi.
+            </Text>
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Đăng nhập</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -110,7 +141,7 @@ const Register = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     padding: 20,
     backgroundColor: "#fff",
@@ -183,6 +214,49 @@ const styles = StyleSheet.create({
     color: "#C8A1E0",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Nền mờ
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    elevation: 5,
+  },
+  modalImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50, // Bo viền hình tròn
+    borderWidth: 2,
+    borderColor: "#C8A1E0", // Màu viền
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center", // Căn giữa tiêu đề
+    marginBottom: 10,
+  },
+  modalText: {
+    textAlign: "center",
+    marginBottom: 18,
+  },
+  loginButton: {
+    backgroundColor: "#C8A1E0",
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 20, // Bo tròn nút
+  },
+  loginButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

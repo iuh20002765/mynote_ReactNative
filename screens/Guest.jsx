@@ -7,46 +7,39 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import CustomHeader from "../components/CustomHeader";
 
 const Guest = ({ navigation }) => {
   const [name, setName] = useState("");
 
   return (
     <View style={styles.container}>
-      <CustomHeader
-        navigation={navigation}
-        title="Đăng nhập với tài khoản khách"
-      />
-      {/* Hình ảnh */}
-      <Image
-        source={require("../assets/guest.png")} // Đường dẫn tới hình ảnh của bạn
-        style={styles.image}
-      />
-
-      {/* Tiêu đề và mô tả */}
-      <Text style={styles.title}>Chờ đã!</Text>
-      <Text style={styles.description}>Tên của bạn là gì á?</Text>
-      <Text style={styles.smallerDescription}>
-        mynote cần tên của bạn để tiện xưng hô nè. Hãy chọn một nickname thật
-        đẹp và đáng yêu nào~
-      </Text>
-
-      {/* Trường nhập Tên */}
-      <TextInput
-        style={styles.input}
-        placeholder="Nhập tên của bạn đi~"
-        value={name}
-        onChangeText={setName}
-        autoCapitalize="none"
-      />
-      {/* Nút Đăng nhập */}
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => navigation.navigate("Main")}
-      >
-        <Text style={styles.loginButtonText}>Đăng nhập</Text>
-      </TouchableOpacity>
+      {/* Nội dung bên dưới header */}
+      <View style={styles.content}>
+        {/* Hình ảnh */}
+        <Image source={require("../assets/guest.png")} style={styles.image} />
+        {/* Tiêu đề và mô tả */}
+        <Text style={styles.title}>Chờ đã!</Text>
+        <Text style={styles.description}>Tên của bạn là gì á?</Text>
+        <Text style={styles.smallerDescription}>
+          mynote cần tên của bạn để tiện xưng hô nè. Hãy chọn một nickname thật
+          đẹp và đáng yêu nào~
+        </Text>
+        {/* Trường nhập Tên */}
+        <TextInput
+          style={styles.input}
+          placeholder="Nhập tên của bạn đi~"
+          value={name}
+          onChangeText={setName}
+          autoCapitalize="none"
+        />
+        {/* Nút Đăng nhập */}
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => navigation.navigate("Main")}
+        >
+          <Text style={styles.loginButtonText}>Đăng nhập</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -58,6 +51,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     backgroundColor: "#fff",
+  },
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
   image: {
     width: 150, // Kích thước hình ảnh

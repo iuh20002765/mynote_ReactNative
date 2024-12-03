@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   CheckBox,
 } from "react-native";
-import CustomHeader from "../components/CustomHeader";
 import OrSeparator from "../components/OrSeparator";
 import { Ionicons, FontAwesome } from "@expo/vector-icons"; // Import biểu tượng từ thư viện
 
@@ -18,7 +17,6 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CustomHeader navigation={navigation} title="Đăng nhập" />
       {/* Các nút đăng nhập */}
       <TouchableOpacity
         style={styles.socialButton}
@@ -77,7 +75,7 @@ const Login = ({ navigation }) => {
           <CheckBox value={rememberMe} onValueChange={setRememberMe} />
           <Text style={styles.rememberMeText}>Nhớ tôi</Text>
         </View>
-        <TouchableOpacity onPress={() => console.log("Quên mật khẩu?")}>
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
           <Text style={styles.forgotPasswordText}>Quên mật khẩu?</Text>
         </TouchableOpacity>
       </View>
@@ -85,7 +83,7 @@ const Login = ({ navigation }) => {
       {/* Nút Đăng nhập */}
       <TouchableOpacity
         style={styles.loginButton}
-        onPress={() => console.log("Đăng nhập")}
+        onPress={() => navigation.navigate("Main")}
       >
         <Text style={styles.loginButtonText}>Đăng nhập</Text>
       </TouchableOpacity>
@@ -104,7 +102,7 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     padding: 20,
     backgroundColor: "#fff",
