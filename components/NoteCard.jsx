@@ -1,25 +1,43 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native"; // Import hook
 
-const NoteCard = ({ title, description, category, locked }) => {
+const NoteCard = ({ title, description, category, locked, id, date, time }) => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    // Khi nhấn vào NoteCard, điều hướng đến màn hình NoteDetail và truyền thông tin của note
+    navigation.navigate("NoteDetail", {
+      id,
+      title,
+      description,
+      category,
+      locked,
+      date,
+      time,
+    });
+  };
   if (locked) {
     return (
-      <View style={[styles.card, styles.lockedCard]}>
-        <Ionicons name="lock-closed" size={32} color="#fff" />
-        <Text style={styles.lockedText}>Đã khóa</Text>
-      </View>
+      <TouchableOpacity onPress={handlePress}>
+        <View style={[styles.card, styles.lockedCard]}>
+          <Ionicons name="lock-closed" size={32} color="#fff" />
+          <Text style={styles.lockedText}>Đã khóa</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
-      <View style={styles.tag}>
-        <Text style={styles.tagText}>{category}</Text>
+    <TouchableOpacity onPress={handlePress}>
+      <View style={styles.card}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.description}>{description}</Text>
+        <View style={styles.tag}>
+          <Text style={styles.tagText}>{category}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

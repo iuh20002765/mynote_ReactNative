@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -19,12 +19,15 @@ import Register from "./screens/Register";
 import ForgotPassword from "./screens/ForgotPassword";
 import Guest from "./screens/Guest";
 import ResetPassword from "./screens/ResetPassword";
-import { AuthProvider } from "./screens/AuthContext";
+import NoteDetail from "./screens/NoteDetail";
+import AddNote from "./screens/AddNote";
+import { AuthProvider, useAuth } from "./screens/AuthContext";
 
 // Khởi tạo các Navigator
 const DiaryStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
+const NoteStack = createStackNavigator();
 
 function DiaryStackNavigator() {
   return (
@@ -35,14 +38,26 @@ function DiaryStackNavigator() {
     </DiaryStack.Navigator>
   );
 }
-
-function MainTabNavigator() {
+function NoteStackNavigator({ currentUser }) {
+  return (
+    <NoteStack.Navigator screenOptions={{ headerShown: false }}>
+      <NoteStack.Screen
+        name="Home"
+        children={() => <Home user={currentUser} />}
+        options={{ headerShown: false }}
+      />
+      <NoteStack.Screen name="NoteDetail" component={NoteDetail} />
+      <NoteStack.Screen name="AddNote" component={AddNote} />
+    </NoteStack.Navigator>
+  );
+}
+function MainTabNavigator({ currentUser }) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "Home") {
+          if (route.name === "NoteStack") {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Diary") {
             iconName = focused ? "book" : "book-outline";
@@ -56,8 +71,8 @@ function MainTabNavigator() {
       })}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="NoteStack"
+        component={NoteStackNavigator}
         options={{ headerShown: false }}
       />
       <Tab.Screen
@@ -67,14 +82,19 @@ function MainTabNavigator() {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        children={() => <Profile user={currentUser} />}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
   );
 }
 
-function AuthStackNavigator() {
+function AuthStackNavigator({
+  dataUser,
+  addUser,
+  currentUser,
+  setCurrentUser,
+}) {
   return (
     <AuthStack.Navigator>
       {/* Nhóm màn hình giới thiệu */}
@@ -93,16 +113,22 @@ function AuthStackNavigator() {
         component={GioiThieu3}
         options={{ headerShown: false }}
       />
-
       {/* Nhóm màn hình xác thực */}
       <AuthStack.Screen
         name="Login"
-        component={Login}
+        component={(props) => (
+          <Login
+            {...props}
+            dataUser={dataUser} // Truyền dataUser ở đây
+            setCurrentUser={setCurrentUser}
+          />
+        )}
         options={navigationOptions("Đăng nhập")}
       />
       <AuthStack.Screen
         name="Register"
         component={Register}
+        initialParams={{ addUser }} // Truyền tham số
         options={navigationOptions("Đăng ký")}
       />
       <AuthStack.Screen
@@ -120,11 +146,11 @@ function AuthStackNavigator() {
         component={Guest}
         options={navigationOptions("Đăng nhập với tài khoản khách")}
       />
-
       {/* Màn hình chính sau đăng nhập */}
       <AuthStack.Screen
         name="Main"
         component={MainTabNavigator}
+        initialParams={{ currentUser }} // Truyền tham số
         options={{ headerShown: false }}
       />
     </AuthStack.Navigator>
@@ -151,8 +177,23 @@ export default function App() {
   return (
     <AuthProvider>
       <NavigationContainer>
-        <AuthStackNavigator />
+        <MainApp />
       </NavigationContainer>
     </AuthProvider>
+  );
+}
+
+// Component chính cho ứng dụng
+function MainApp() {
+  const { dataUser, addUser } = useAuth();
+  const [currentUser, setCurrentUser] = useState(null);
+
+  return (
+    <AuthStackNavigator
+      dataUser={dataUser}
+      addUser={addUser}
+      currentUser={currentUser}
+      setCurrentUser={setCurrentUser}
+    />
   );
 }

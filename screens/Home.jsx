@@ -11,8 +11,12 @@ import {
 import NoteCard from "../components/NoteCard";
 import Tag from "../components/Tag";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Home() {
+  //const currentUser = route.params?.currentUser || { name: "Kein" };
+  //console.log(currentUser);
+  const navigation = useNavigation();
   const [filter, setFilter] = useState("All");
   const [notes, setNotes] = useState([
     {
@@ -21,6 +25,12 @@ export default function Home() {
       description: "Lorem ipsum...",
       category: "Personal",
       locked: false,
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
+      time: new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
     },
     {
       id: "2",
@@ -28,6 +38,12 @@ export default function Home() {
       description: "Lorem ipsum...",
       category: "UI",
       locked: true,
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
+      time: new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
     },
     {
       id: "3",
@@ -35,6 +51,12 @@ export default function Home() {
       description: "Lorem ipsum...",
       category: "Work",
       locked: false,
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
+      time: new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
     },
     {
       id: "4",
@@ -42,6 +64,12 @@ export default function Home() {
       description: "Lorem ipsum...",
       category: "Work",
       locked: false,
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
+      time: new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
     },
     {
       id: "5",
@@ -49,6 +77,12 @@ export default function Home() {
       description: "Lorem ipsum...",
       category: "Hobby",
       locked: true,
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
+      time: new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
     },
     {
       id: "6",
@@ -56,6 +90,12 @@ export default function Home() {
       description: "Lorem ipsum...",
       category: "Work",
       locked: false,
+      date: new Date().toLocaleDateString("vi-VN"), // Ngày
+      time: new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
     },
   ]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -63,7 +103,9 @@ export default function Home() {
   const [showAddButtons, setShowAddButtons] = useState(false);
 
   const tags = ["All", "Work", "UI", "Personal", "Hobby", "Fitness"];
-
+  const navigateToAddNote = () => {
+    navigation.navigate("AddNote");
+  };
   // Xử lý tìm kiếm và sắp xếp
   const filteredNotes = notes
     .filter((note) =>
@@ -88,7 +130,8 @@ export default function Home() {
         <View>
           <Text style={styles.greetingText}>Một ngày tốt lành,</Text>
           <Text style={styles.username}>
-            Kein <Text style={styles.heart}>❤️</Text>
+            {/*{currentUser ? currentUser.name : "Kein"}*/}Kein
+            <Text style={styles.heart}>❤️</Text>
           </Text>
         </View>
       </View>
@@ -134,6 +177,7 @@ export default function Home() {
         data={sortedNotes}
         renderItem={({ item }) => (
           <NoteCard
+            id={item.id}
             title={item.title}
             description={item.description}
             category={item.category}
@@ -158,7 +202,10 @@ export default function Home() {
           <TouchableOpacity style={styles.smallButton}>
             <Ionicons name="mic" size={24} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}>
+          <TouchableOpacity
+            style={styles.smallButton}
+            onPress={navigateToAddNote}
+          >
             <Ionicons name="create" size={24} color="#fff" />
           </TouchableOpacity>
         </View>

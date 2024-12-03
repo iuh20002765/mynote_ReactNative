@@ -35,7 +35,7 @@ const Guest = ({ navigation }) => {
         {/* Nút Đăng nhập */}
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={() => navigation.navigate("Main")}
+          onPress={() => navigation.navigate("Main", { name })}
         >
           <Text style={styles.loginButtonText}>Đăng nhập</Text>
         </TouchableOpacity>

@@ -11,25 +11,23 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "./AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
-const userData = {
-  name: "Kein",
-  avatar: require("../assets/Kein.jpg"),
-  email: "vukein3110@gmail.com",
-  joinDate: new Date("2024-09-18"),
-};
-
-export default function Profile() {
+export default function Profile({ dataUser }) {
   const { logOut } = useAuth();
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false); // state cho modal
 
   // Hàm xử lý đăng xuất
-  const handleLogOut = () => {
-    logOut();
-    navigation.navigate("Login");
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem("rememberedUser");
+      setCurrentUser(null);
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log("Error during logout:", error);
+    }
   };
 
-  const joinDateString = userData.joinDate.toLocaleDateString("vi-VN", {
+  const joinDateString = dataUser?.joinDate.toLocaleDateString("vi-VN", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -39,14 +37,14 @@ export default function Profile() {
     <View style={styles.container}>
       <View style={styles.profile}>
         <View style={styles.profilePictureContainer}>
-          {userData.avatar ? (
-            <Image source={userData.avatar} style={styles.profilePicture} />
+          {dataUser?.avatar ? (
+            <Image source={dataUser?.avatar} style={styles.profilePicture} />
           ) : (
             <Ionicons name="person-circle-outline" size={80} color="#000" />
           )}
         </View>
-        <Text style={styles.username}>{userData.name}</Text>
-        <Text style={styles.email}>{userData.email}</Text>
+        <Text style={styles.username}>{dataUser?.name}</Text>
+        <Text style={styles.email}>{dataUser?.email}</Text>
       </View>
 
       <View style={styles.settingsContainer}>
@@ -95,7 +93,7 @@ export default function Profile() {
               <TouchableOpacity
                 style={styles.modalButton}
                 onPress={() => {
-                  handleLogOut(); // Gọi hàm đăng xuất
+                  handleLogout(); // Gọi hàm đăng xuất
                   setModalVisible(false); // Đóng modal
                 }}
               >

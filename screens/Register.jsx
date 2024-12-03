@@ -11,8 +11,10 @@ import {
 } from "react-native";
 import OrSeparator from "../components/OrSeparator";
 import { Ionicons, FontAwesome } from "@expo/vector-icons"; // Import biểu tượng từ thư viện
+import { useAuth } from "./AuthContext";
 
 const Register = ({ navigation }) => {
+  const { addUser } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,13 +22,33 @@ const Register = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleRegister = () => {
-    // Logic đăng ký (kiểm tra, tạo tài khoản, v.v.)
-    // Sau khi đăng ký thành công
-    setModalVisible(true); // Hiển thị modal
+    if (!name || !email || !password) {
+      console.error("Please fill out all fields.");
+      return;
+    }
+    if (!agree) {
+      console.error("You must agree to the terms.");
+      return;
+    }
+
+    // Tạo thông tin người dùng mới
+    const newUser = {
+      email,
+      password,
+      name,
+      avatar: require("../assets/Kein.jpg"), // Avatar mặc định
+      joinDate: new Date(),
+    };
+
+    // Thêm người dùng mới
+    addUser(newUser);
+    setModalVisible(true);
   };
 
   const handleLogin = () => {
     setModalVisible(false); // Ẩn modal
+    const newUser = { email, password, name };
+    addUser(newUser); // Thêm người dùng mới vào mảng
     navigation.navigate("Login"); // Điều hướng đến trang đăng nhập
   };
   return (
