@@ -59,6 +59,7 @@ function DiaryDate() {
       tag: "Life Style",
     },
   ];
+
   const stories = [
     {
       id: "1",
@@ -281,6 +282,7 @@ const styles = StyleSheet.create({
   story: {
     alignItems: "center",
     marginRight: 15,
+    marginBottom: 150,
   },
   storyImage: {
     width: 60,

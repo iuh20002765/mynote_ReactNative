@@ -40,14 +40,42 @@ function DiaryStackNavigator() {
 }
 function NoteStackNavigator({ currentUser }) {
   return (
-    <NoteStack.Navigator screenOptions={{ headerShown: false }}>
+    <NoteStack.Navigator>
       <NoteStack.Screen
         name="Home"
-        children={() => <Home user={currentUser} />}
+        children={() => <Home dataUser={currentUser} />}
         options={{ headerShown: false }}
       />
-      <NoteStack.Screen name="NoteDetail" component={NoteDetail} />
-      <NoteStack.Screen name="AddNote" component={AddNote} />
+      <NoteStack.Screen
+        name="NoteDetail"
+        component={NoteDetail}
+        options={{
+          headerLeft: ({ navigation }) => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{ paddingLeft: 10 }}
+            >
+              <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
+          ),
+          headerRight: () => <Ionicons name="more" size={24} color="black" />,
+        }}
+      />
+      <NoteStack.Screen
+        name="AddNote"
+        component={AddNote}
+        options={{
+          headerLeft: ({ navigation }) => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{ paddingLeft: 10 }}
+            >
+              <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
+          ),
+          headerRight: () => <Ionicons name="more" size={24} color="black" />,
+        }}
+      />
     </NoteStack.Navigator>
   );
 }
@@ -57,7 +85,7 @@ function MainTabNavigator({ currentUser }) {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === "NoteStack") {
+          if (route.name === "Home") {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Diary") {
             iconName = focused ? "book" : "book-outline";
@@ -71,8 +99,8 @@ function MainTabNavigator({ currentUser }) {
       })}
     >
       <Tab.Screen
-        name="NoteStack"
-        component={NoteStackNavigator}
+        name="Home"
+        children={() => <NoteStackNavigator currentUser={currentUser} />}
         options={{ headerShown: false }}
       />
       <Tab.Screen
@@ -82,7 +110,7 @@ function MainTabNavigator({ currentUser }) {
       />
       <Tab.Screen
         name="Profile"
-        children={() => <Profile user={currentUser} />}
+        children={() => <Profile dataUser={currentUser} />}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
@@ -149,8 +177,7 @@ function AuthStackNavigator({
       {/* Màn hình chính sau đăng nhập */}
       <AuthStack.Screen
         name="Main"
-        component={MainTabNavigator}
-        initialParams={{ currentUser }} // Truyền tham số
+        children={() => <MainTabNavigator currentUser={currentUser} />}
         options={{ headerShown: false }}
       />
     </AuthStack.Navigator>

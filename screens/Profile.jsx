@@ -12,22 +12,22 @@ import { useAuth } from "./AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Profile({ dataUser }) {
+  const currentUser = dataUser;
   const { logOut } = useAuth();
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false); // state cho modal
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Hàm xử lý đăng xuất
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem("rememberedUser");
-      setCurrentUser(null);
+      await logOut();
       navigation.navigate("Login");
     } catch (error) {
-      console.log("Error during logout:", error);
+      console.error("Error during logout:", error);
     }
   };
 
-  const joinDateString = dataUser?.joinDate.toLocaleDateString("vi-VN", {
+  const joinDateString = currentUser?.joinDate?.toLocaleDateString("vi-VN", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -37,14 +37,14 @@ export default function Profile({ dataUser }) {
     <View style={styles.container}>
       <View style={styles.profile}>
         <View style={styles.profilePictureContainer}>
-          {dataUser?.avatar ? (
-            <Image source={dataUser?.avatar} style={styles.profilePicture} />
+          {currentUser?.avatar ? (
+            <Image source={currentUser.avatar} style={styles.profilePicture} />
           ) : (
             <Ionicons name="person-circle-outline" size={80} color="#000" />
           )}
         </View>
-        <Text style={styles.username}>{dataUser?.name}</Text>
-        <Text style={styles.email}>{dataUser?.email}</Text>
+        <Text style={styles.username}>{currentUser?.name}</Text>
+        <Text style={styles.email}>{currentUser?.email}</Text>
       </View>
 
       <View style={styles.settingsContainer}>
@@ -76,7 +76,6 @@ export default function Profile({ dataUser }) {
         <Text style={styles.logoutText}>Đăng xuất</Text>
       </TouchableOpacity>
 
-      {/* Modal xác nhận đăng xuất */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -93,8 +92,8 @@ export default function Profile({ dataUser }) {
               <TouchableOpacity
                 style={styles.modalButton}
                 onPress={() => {
-                  handleLogout(); // Gọi hàm đăng xuất
-                  setModalVisible(false); // Đóng modal
+                  handleLogout();
+                  setModalVisible(false);
                 }}
               >
                 <Text style={styles.modalButtonText}>Đồng ý</Text>
